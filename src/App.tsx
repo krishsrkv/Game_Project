@@ -1,29 +1,49 @@
-import { Grid, GridItem, Show, Box } from "@chakra-ui/react";
+import { Box, Grid, GridItem, useColorMode } from "@chakra-ui/react";
 import Navbar from "./components/navbar";
 
 function App() {
+  const { colorMode } = useColorMode();
+
   return (
-    <Box bg="bg.canvas" minH="100vh">
-      {" "}
-      {/* Full-page dark background */}
+    <Box
+      minH="100vh"
+      bg={colorMode === "dark" ? "gray.800" : "gray.100"}
+      color={colorMode === "dark" ? "white" : "black"}
+    >
       <Grid
         templateAreas={{
-          base: `"nav" "main"`,
-          lg: `"nav nav" "aside main"`,
+          base: `"nav"
+                 "main"`,
+          lg: `"nav nav"
+               "aside main"`,
         }}
-        p="4"
+        gap={4}
+        p={4}
       >
-        <GridItem area="nav" bg="red.300">
+        <GridItem
+          area="nav"
+          bg={colorMode === "dark" ? "gray.700" : "white"}
+          p={4}
+          borderRadius="md"
+        >
           <Navbar />
         </GridItem>
 
-        <Show above="lg">
-          <GridItem area="aside" bg="yellow.300">
-            Aside
-          </GridItem>
-        </Show>
+        <GridItem
+          area="aside"
+          bg={colorMode === "dark" ? "gray.700" : "white"}
+          p={4}
+          borderRadius="md"
+        >
+          Aside
+        </GridItem>
 
-        <GridItem area="main" bg="blue.300">
+        <GridItem
+          area="main"
+          bg={colorMode === "dark" ? "gray.700" : "white"}
+          p={4}
+          borderRadius="md"
+        >
           Main
         </GridItem>
       </Grid>
