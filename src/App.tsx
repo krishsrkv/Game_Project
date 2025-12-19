@@ -1,6 +1,7 @@
 import { Box, Grid, GridItem, useColorMode } from "@chakra-ui/react";
 import Navbar from "./components/Navbar";
 import GameGrid from "./components/GameGrid";
+import GenreList from "./components/GenreList";
 
 function App() {
   const { colorMode } = useColorMode();
@@ -36,7 +37,7 @@ function App() {
           p={4}
           borderRadius="md"
         >
-          Aside
+          <GenreList />
         </GridItem>
 
         <GridItem
