@@ -1,19 +1,18 @@
 import { useEffect, useState } from "react";
 import apiClient from "../services/api-client";
 
-export interface Platform{
-  id:number;
-  name:string;
-  slug:string;
+export interface Platform {
+  id: number;
+  name: string;
+  slug: string;
 }
 
 export interface Game {
   id: number;
   name: string;
-  background_image:string;
-  parent_platforms:{platform:Platform}[]
-  metacritic:number;
-
+  background_image: string;
+  parent_platforms?: { platform: Platform }[];
+  metacritic: number;
 }
 
 interface FetchGamesResponse {
@@ -22,26 +21,31 @@ interface FetchGamesResponse {
 }
 
 const useGames = () => {
-const [games, setGames] = useState<Game[]>([]);
+  const [games, setGames] = useState<Game[]>([]);
   const [error, setError] = useState("");
+  const [isLoading, setLoading] = useState(false);
 
   useEffect(() => {
-
     const controller = new AbortController();
+    setLoading(true);
+
     apiClient
-      .get<FetchGamesResponse>("/games", {signal : controller.signal})
+      .get<FetchGamesResponse>("/games", { signal: controller.signal })
       .then((res) => {
-        console.log("API Response:", res.data); // 👈 Add this for debugging
-        setGames(res.data.results || []); // 👈 Fallback prevents undefined
+        setGames(res.data.results || []);
+        setLoading(false);
       })
-      .catch((err) => setError(err.message));
-      return() => controller.abort();
+      .catch((err) => {
+        if (err.name !== "CanceledError") {
+          setError(err.message);
+          setLoading(false);
+        }
+      });
+
+    return () => controller.abort();
   }, []);
 
-return {games,error};
+  return { games, error, isLoading };
+};
 
-
-
-}
-
-export default useGames
+export default useGames;
