@@ -1,10 +1,13 @@
 import { Box, Grid, GridItem, useColorMode } from "@chakra-ui/react";
+import { useState } from "react";
 import Navbar from "./components/Navbar";
 import GameGrid from "./components/GameGrid";
 import GenreList from "./components/GenreList";
+import type { Genre } from "./hooks/useGenres";
 
 function App() {
   const { colorMode } = useColorMode();
+  const [selectedGenre, setSelectedGenre] = useState<Genre | null>(null);
 
   return (
     <Box
@@ -24,32 +27,16 @@ function App() {
           lg: "200px 1fr",
         }}
       >
-        <GridItem
-          area="nav"
-          bg={colorMode === "dark" ? "gray.700" : "white"}
-          p={4}
-          borderRadius="md"
-        >
+        <GridItem area="nav" p={4}>
           <Navbar />
         </GridItem>
 
-        <GridItem
-          area="aside"
-          paddingX={5}
-          bg={colorMode === "dark" ? "gray.700" : "white"}
-          p={4}
-          borderRadius="md"
-        >
-          <GenreList />
+        <GridItem area="aside" paddingX={5}>
+          <GenreList onSelectGenre={setSelectedGenre} />
         </GridItem>
 
-        <GridItem
-          area="main"
-          bg={colorMode === "dark" ? "gray.700" : "white"}
-          p={4}
-          borderRadius="md"
-        >
-          <GameGrid />
+        <GridItem area="main" p={4}>
+          <GameGrid selectedGenre={selectedGenre} />
         </GridItem>
       </Grid>
     </Box>
