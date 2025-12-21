@@ -19,8 +19,10 @@ function App() {
           lg: `"nav nav"
                "aside main"`,
         }}
-        gap={4}
-        p={4}
+        templateColumns={{
+          base: "1fr",
+          lg: "200px 1fr",
+        }}
       >
         <GridItem
           area="nav"
@@ -33,6 +35,7 @@ function App() {
 
         <GridItem
           area="aside"
+          paddingX={5}
           bg={colorMode === "dark" ? "gray.700" : "white"}
           p={4}
           borderRadius="md"
